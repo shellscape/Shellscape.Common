@@ -16,6 +16,8 @@ namespace Shellscape.UI.Skipe {
 
 		protected virtual SkipeButtonGroup ButtonGroup { get { return null;  } }
 
+		protected EventHandler PanelShown { get; set; }
+
 		public SkipeForm() {
 			SetStyle(ControlStyles.ContainerControl, false);
 			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
@@ -24,6 +26,12 @@ namespace Shellscape.UI.Skipe {
 			UpdateStyles();
 
 			Padding = new System.Windows.Forms.Padding(8);
+		}
+
+		protected virtual void OnPanelShown(object sender, EventArgs e) {
+			if (PanelShown != null) {
+				PanelShown(sender, e);
+			}
 		}
 
 		protected override void OnLoad(EventArgs e) {
@@ -78,6 +86,7 @@ namespace Shellscape.UI.Skipe {
 
 			if (button.AssociatedPanel != null) {
 				button.AssociatedPanel.Show();
+				OnPanelShown(button.AssociatedPanel, EventArgs.Empty);
 			}
 			else if (button.ButtonItems.Count > 0 && _activateFirstItem) {
 				button.ButtonItems[0].Activate();
@@ -95,6 +104,7 @@ namespace Shellscape.UI.Skipe {
 				}
 				
 				button.AssociatedPanel.Show();
+				OnPanelShown(button.AssociatedPanel, EventArgs.Empty);
 			}
 		}
 

@@ -33,5 +33,17 @@ namespace Shellscape.UI.Skipe {
 			}
 		}
 
+		//protected override void OnControlAdded(ControlEventArgs e) {
+		//  base.OnControlAdded(e);
+
+		//  if (e.Control is SkipeButton) {
+		//    (e.Control as SkipeButton).ButtonItems.ItemAdded += buttonItems_ItemAdded;
+		//  }
+		//}
+
+		//private void buttonItems_ItemAdded(object sender, SkipeButtonItemEventArgs e) {
+		//  this.PerformLayout();
+		//}
+
 	}
 }

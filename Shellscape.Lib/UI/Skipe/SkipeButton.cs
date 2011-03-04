@@ -470,6 +470,8 @@ namespace Shellscape.UI.Skipe {
 			Controls.Clear();
 
 			if (showItems) {
+				int baseHeight = _buttonHeight;
+
 				Padding = new Padding(2, _buttonHeight, 2, 0);
 
 				foreach (SkipeButtonItem val in _buttonItems) {
@@ -477,8 +479,12 @@ namespace Shellscape.UI.Skipe {
 					val.Dock = DockStyle.Top;
 					val.ActiveButton = false;
 					val.BringToFront();
+					
+					baseHeight += val.Height;
 				}
 
+				// when the button is already expanded, adding more button items needs to adjust the height;
+				this.Height = baseHeight + 2;
 			}
 
 			ResumeLayout();
