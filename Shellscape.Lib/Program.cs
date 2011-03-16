@@ -14,7 +14,7 @@ namespace Shellscape {
 	public class Program {
 
 		public event EventHandler MainInstanceStarted;
-		public event EventHandler RemoteCall;
+		public event EventHandler<RemoteCallEventArgs> RemoteCall;
 
 		private String _channelName;
 
@@ -26,7 +26,7 @@ namespace Shellscape {
 		public void Run<TForm>(String[] arguments) where TForm : Form, new() {
 
 			bool createdNew;
-			
+
 			using (new Mutex(true, MutexName, out createdNew)) {
 				if (!createdNew) {
 					CallRunningInstance(arguments);
@@ -88,7 +88,7 @@ namespace Shellscape {
 			object service = RemotingServices.Connect(RemotingServiceType, "ipc://" + _channelName + "/service.rem");
 
 			if (RemoteCall != null) {
-				RemoteCall(service, EventArgs.Empty);
+				RemoteCall(service, new RemoteCallEventArgs() { Arguments = arguments });
 			}
 		}
 

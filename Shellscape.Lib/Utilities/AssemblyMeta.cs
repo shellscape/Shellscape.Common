@@ -46,10 +46,22 @@ namespace Shellscape.Utilities {
 				String result = GetAttribute<AssemblyTitleAttribute>("Title");
 
 				if (String.IsNullOrEmpty(result)) {
-					return System.IO.Path.GetFileNameWithoutExtension(_assembly.CodeBase);
+					return AssemblyName;
 				}
 
 				return result;
+			} 
+		}
+
+		public static String AssemblyName { 
+			get {
+				Init();
+
+				if (_assembly == null) {
+					return String.Empty;
+				}
+
+				return System.IO.Path.GetFileNameWithoutExtension(_assembly.CodeBase); 
 			} 
 		}
 

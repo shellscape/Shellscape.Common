@@ -45,11 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentCollection.cs" />
+    <Compile Include="CodePackShim.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\ConfigSavedEventHandler.cs" />
     <Compile Include="DelayedCall.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoteCallEventArgs.cs" />
+    <Compile Include="RemotingService.cs" />
     <Compile Include="UI\Controls\DoubleBufferedControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -59,49 +63,56 @@
     <Compile Include="UI\Controls\ImageButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Skipe\SkipeDrawingHelper.cs" />
-    <Compile Include="UI\Skipe\SkipeBaseControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipeBaseControl.designer.cs">
-      <DependentUpon>SkipeBaseControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipeButton.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipeButton.designer.cs">
-      <DependentUpon>SkipeButton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipeButtonBase.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipeButtonGroup.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipeButtonItem.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipeButtonItem.designer.cs">
-      <DependentUpon>SkipeButtonItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipePanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipePanel.designer.cs">
-      <DependentUpon>SkipePanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Skipe\SkipeButtonItemCollection.cs" />
-    <Compile Include="UI\Skipe\SkipeButtonItemEventArgs.cs" />
-    <Compile Include="UI\Skipe\SkipeForm.cs">
+    <Compile Include="UI\Preferences\PreferencesForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UI\Preferences\PreferencesForm.Designer.cs">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesDrawingHelper.cs" />
+    <Compile Include="UI\Preferences\PreferencesBaseControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesBaseControl.designer.cs">
+      <DependentUpon>PreferencesBaseControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesButton.designer.cs">
+      <DependentUpon>PreferencesButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesButtonBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesButtonGroup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesButtonItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesButtonItem.designer.cs">
+      <DependentUpon>PreferencesButtonItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesPanel.designer.cs">
+      <DependentUpon>PreferencesPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Preferences\PreferencesButtonItemCollection.cs" />
+    <Compile Include="UI\Preferences\PreferencesButtonItemEventArgs.cs" />
     <Compile Include="Utilities\AssemblyMeta.cs" />
     <Compile Include="Utilities\ErrorHelper.cs" />
+    <Compile Include="Utilities\ResourceHelper.cs" />
     <Compile Include="Utilities\Serializer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UI\Skipe\SkipeButtonItem.resx">
-      <DependentUpon>SkipeButtonItem.cs</DependentUpon>
+    <EmbeddedResource Include="UI\Preferences\PreferencesForm.resx">
+      <DependentUpon>PreferencesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Preferences\PreferencesButtonItem.resx">
+      <DependentUpon>PreferencesButtonItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
