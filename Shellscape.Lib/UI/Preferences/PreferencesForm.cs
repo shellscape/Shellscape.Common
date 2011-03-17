@@ -11,7 +11,7 @@ namespace Shellscape.UI.Controls.Preferences {
 	public partial class PreferencesForm : Form {
 
 		protected PreferencesButton _activeButton = null;
-		protected List<PreferencesPanel> _panels;
+		protected List<PreferencesPanel> _panels = new List<PreferencesPanel>();
 		protected Boolean _activateFirstItem = true;
 
 		protected EventHandler PanelShown { get; set; }		
@@ -37,10 +37,6 @@ namespace Shellscape.UI.Controls.Preferences {
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);
 
-			if (_panels == null) {
-				_panels = new List<PreferencesPanel>();
-			}
-
 			HidePanels();
 
 			if (_ButtonGroup != null && _ButtonGroup.Controls.Count > 0) {
@@ -55,10 +51,6 @@ namespace Shellscape.UI.Controls.Preferences {
 		}
 
 		private void _PanelParent_ControlAdded(object sender, ControlEventArgs e) {
-
-			if (_panels == null) {
-				_panels = new List<PreferencesPanel>();
-			}
 
 			if (e.Control is PreferencesPanel) {
 				_panels.Add(e.Control as PreferencesPanel);

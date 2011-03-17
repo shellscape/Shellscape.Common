@@ -40,6 +40,7 @@
 			this._PanelParent.Padding = new System.Windows.Forms.Padding(12, 12, 12, 6);
 			this._PanelParent.Size = new System.Drawing.Size(524, 412);
 			this._PanelParent.TabIndex = 9;
+			this._PanelParent.ControlAdded += new System.Windows.Forms.ControlEventHandler(this._PanelParent_ControlAdded);
 			// 
 			// _PanelGeneral
 			// 
