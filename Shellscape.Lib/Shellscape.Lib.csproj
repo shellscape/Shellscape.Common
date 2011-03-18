@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentCollection.cs" />
+    <Compile Include="CallBuffer.cs" />
     <Compile Include="CodePackShim.cs" />
     <Compile Include="Configuration\Config.cs" />
     <Compile Include="Configuration\ConfigSavedEventHandler.cs" />
@@ -61,6 +62,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\ImageButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\InputBufferedTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Controls\NumericTextBox.cs">

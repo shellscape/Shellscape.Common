@@ -293,8 +293,6 @@ namespace Shellscape {
 			lock (timerLock) {
 				Cancel();
 				Start();
-				// TODO: This sets and unsets the cancelled flag, so immediate execution of the
-				//       previous timer right after this method call cannot be eliminated.
 			}
 		}
 
@@ -307,9 +305,6 @@ namespace Shellscape {
 				Cancel();
 				Milliseconds = milliseconds;
 				Start();
-				// TODO: This sets and unsets the cancelled flag, so immediate execution of the
-				//       previous timer right after this method call cannot be eliminated.
-				//       (Derived classes are also affected.)
 			}
 		}
 
