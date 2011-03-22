@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentCollection.cs" />
+    <Compile Include="Browser.cs" />
     <Compile Include="CallBuffer.cs" />
     <Compile Include="CodePackShim.cs" />
     <Compile Include="Configuration\Config.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="UI\Preferences\PreferencesButtonItemCollection.cs" />
     <Compile Include="UI\Preferences\PreferencesButtonItemEventArgs.cs" />
     <Compile Include="Utilities\AssemblyMeta.cs" />
+    <Compile Include="Utilities\BrowserHelper.cs" />
     <Compile Include="Utilities\ErrorHelper.cs" />
     <Compile Include="Utilities\ResourceHelper.cs" />
     <Compile Include="Utilities\Serializer.cs" />
