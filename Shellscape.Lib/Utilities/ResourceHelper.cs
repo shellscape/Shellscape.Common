@@ -101,14 +101,14 @@ namespace Shellscape.Utilities {
 		/// <param name="fileName">Filename of the embedded resource.</param>
 		/// <returns></returns>
 		public static T Get<T>(String fileName){
-			
-			Assembly assembly = Assembly.GetCallingAssembly();
+
+			Assembly assembly = Assembly.GetEntryAssembly(); // Assembly.GetCallingAssembly(); may want to revisit this method to allow for loading from other sources.
 			
 			return Get<T>(assembly, fileName);
 		}
 
 		public static Stream GetResourceStream(String fileName) {
-			Assembly assembly = Assembly.GetCallingAssembly();
+			Assembly assembly = Assembly.GetEntryAssembly();
 			return assembly.GetManifestResourceStream(String.Concat(_resourcePrefix, fileName));
 		}
 
@@ -116,6 +116,19 @@ namespace Shellscape.Utilities {
 			iconName = String.Concat("Icons.", iconName);
 
 			return Get<Icon>(iconName);
+		}
+
+		public static Icon GetIcon(string iconName, int size) {
+			iconName = String.Concat("Icons.", iconName);
+
+			using (Stream stream = GetResourceStream(iconName)) {
+				if (stream == null) {
+					return default(Icon);
+				}
+
+				return new Icon(stream, size, size);
+			}
+						
 		}
 
 		public static Bitmap GetImage(string imageName) {
