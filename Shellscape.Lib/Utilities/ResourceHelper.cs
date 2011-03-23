@@ -48,7 +48,24 @@ namespace Shellscape.Utilities {
 
 		#endregion
 
-		private static readonly String _resourcePrefix = AssemblyMeta.AssemblyName + ".Resources.";
+		private static String _resourcePrefix = String.Empty;
+
+		static ResourceHelper() {
+			String[] resourceNames = Assembly.GetEntryAssembly().GetManifestResourceNames();
+			String root = String.Empty;
+			String find = ".Resources.";
+
+			foreach (String res in resourceNames) {
+				if(res.Contains(find)){
+					root = res;
+					break;
+				}
+			}
+
+			root = root.Substring(0, root.LastIndexOf(find) + find.Length);
+
+			_resourcePrefix = root;
+		}
 
 		/// <summary>
 		/// Returns the contents of a file which has been embedded as a resource.
