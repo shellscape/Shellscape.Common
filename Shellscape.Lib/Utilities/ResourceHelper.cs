@@ -51,7 +51,14 @@ namespace Shellscape.Utilities {
 		private static String _resourcePrefix = String.Empty;
 
 		static ResourceHelper() {
-			String[] resourceNames = Assembly.GetEntryAssembly().GetManifestResourceNames();
+
+			Assembly assembly = Assembly.GetEntryAssembly();
+
+			if (assembly == null) {
+				return;
+			}
+
+			String[] resourceNames = assembly.GetManifestResourceNames();
 			String root = String.Empty;
 			String find = ".Resources.";
 
