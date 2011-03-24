@@ -179,7 +179,7 @@ namespace Shellscape.UI.Controls.Preferences {
 			set { _headerImage = value; Invalidate(); }
 		}
 
-		internal string HeaderTextPrefix {
+		public virtual string HeaderTextPrefix {
 			get { return _headerTextPrefix; }
 			set {
 				_headerTextPrefix = value;
