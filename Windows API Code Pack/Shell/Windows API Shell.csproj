@@ -353,7 +353,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\Windows API Core.csproj">
       <Project>{2E1FB0DF-F9BB-4909-9F32-2D9D022A8E57}</Project>
-      <Name>Core</Name>
+      <Name>Windows API Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
