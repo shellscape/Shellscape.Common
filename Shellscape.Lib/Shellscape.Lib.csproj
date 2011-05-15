@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentCollection.cs" />
+    <Compile Include="AssemblyResourceNamespaceAttribute.cs" />
     <Compile Include="Browser.cs" />
     <Compile Include="CallBuffer.cs" />
     <Compile Include="CodePackShim.cs" />

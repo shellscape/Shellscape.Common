@@ -54,13 +54,31 @@ namespace Shellscape.Utilities {
 					Browser browser = new Browser();
 					RegistryKey browserKey = browserKeys.OpenSubKey(browserName);
 
-					browser.Name = (string)browserKey.GetValue(null);
+					if (browserKey == null) {
+						continue;
+					}
+					else {
+						browser.Name = (string)browserKey.GetValue(null);
+					}
 
 					RegistryKey browserKeyPath = browserKey.OpenSubKey(@"shell\open\command");
-					browser.Path = (string)browserKeyPath.GetValue(null);
+
+					// some folks have bad registry settings. if shell\open\command doesn't exist, we can't add the browser.
+					if (browserKeyPath == null) { 
+						continue;
+					}
+					else{
+						browser.Path = (string)browserKeyPath.GetValue(null);
+					}
 
 					RegistryKey browserIconPath = browserKey.OpenSubKey(@"DefaultIcon");
-					browser.IconPath = (string)browserIconPath.GetValue(null);
+
+					if (browserIconPath == null) {
+						continue;
+					}
+					else {
+						browser.IconPath = (string)browserIconPath.GetValue(null);
+					}
 
 					results.Add(browser);
 				}
