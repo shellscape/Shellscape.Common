@@ -42,6 +42,10 @@ namespace Shellscape.UI.Controls.Preferences {
 		protected override void OnSizeChanged(EventArgs e) {
 			base.OnSizeChanged(e);
 
+			if (!Visible || this.FindForm().WindowState == FormWindowState.Minimized) {
+				return;
+			}
+
 			if (_background != null) {
 				_background.Dispose();
 			}
