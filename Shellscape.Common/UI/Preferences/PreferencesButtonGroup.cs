@@ -42,8 +42,12 @@ namespace Shellscape.UI.Controls.Preferences {
 		protected override void OnSizeChanged(EventArgs e) {
 			base.OnSizeChanged(e);
 
-			if (!Visible || this.FindForm().WindowState == FormWindowState.Minimized) {
-				return;
+			Form form = this.FindForm();
+
+			if (form != null) {
+				if (!Visible || form.WindowState == FormWindowState.Minimized) {
+					return;
+				}
 			}
 
 			if (_background != null) {
@@ -55,7 +59,9 @@ namespace Shellscape.UI.Controls.Preferences {
 		}
 
 		protected override void OnPaint(PaintEventArgs e) {
-			e.Graphics.DrawImage(_background, 0, 0, _background.Width, _background.Height);
+			if (_background != null) {
+				e.Graphics.DrawImage(_background, 0, 0, _background.Width, _background.Height);
+			}
 			
 			base.OnPaint(e);
 		}
