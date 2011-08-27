@@ -20,7 +20,7 @@ namespace Shellscape.UI.ControlPanel {
 			this.Dock = DockStyle.Left;
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.Width = 200;
-			this.Padding = new Padding(22, 10, 22, 20);
+			this.Padding = new Padding(22, 10, 12, 20);
 			
 			SetStyle(ControlStyles.ContainerControl, false);
 			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);

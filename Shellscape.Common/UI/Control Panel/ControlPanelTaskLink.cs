@@ -18,7 +18,7 @@ namespace Shellscape.UI.ControlPanel {
 		private Color _hoverColor;
 
 		public ControlPanelTaskLink()	: base() {
-			this.Padding = new Padding(0, 3, 0, 3);
+			this.Padding = new Padding(0, 3, 0, 5);
 			this.LinkVisited = false;
 			this.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
 			this.AutoSize = true;
