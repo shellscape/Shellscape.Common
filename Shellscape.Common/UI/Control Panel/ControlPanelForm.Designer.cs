@@ -23,7 +23,7 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this._Tasks = new Shellscape.UI.ControlPanel.ControlPanelTasks();
+			this._Tasks = new Shellscape.UI.ControlPanel.ControlPanelNavigation();
 			this.SuspendLayout();
 			// 
 			// _Tasks
@@ -53,7 +53,8 @@
 
 		#endregion
 
-		public ControlPanelTasks _Tasks;
+		private ControlPanelNavigation _Tasks;
+
 
 
 	}

@@ -82,6 +82,9 @@
     <Compile Include="UI\Control Panel\ControlPanelTaskLink.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Control Panel\ControlPanelTaskPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\DoubleBufferedControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -122,7 +125,7 @@
     <Compile Include="UI\Preferences\PreferencesButtonBase.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UI\Control Panel\ControlPanelTasks.cs">
+    <Compile Include="UI\Control Panel\ControlPanelNavigation.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\Preferences\PreferencesButtonItem.cs">

@@ -29,5 +29,14 @@ namespace Shellscape.UI.ControlPanel {
 				panel.Hide();
 			}
 		}
+
+		public Control.ControlCollection Tasks { get { return _Tasks._tasks.Controls; } }
+		
+		public Control.ControlCollection OtherTasks { get { return _Tasks._otherTasks.Controls; } }
+
+		public String OtherTasksText {
+			get { return _Tasks.OtherTasksText; }
+			set { _Tasks.OtherTasksText = value; }
+		}
 	}
 }

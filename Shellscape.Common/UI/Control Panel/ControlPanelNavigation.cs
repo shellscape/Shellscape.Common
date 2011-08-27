@@ -11,24 +11,69 @@ using System.Windows.Forms.VisualStyles;
 
 namespace Shellscape.UI.ControlPanel {
 
-	public class ControlPanelTasks : FlowLayoutPanel {
+	public class ControlPanelNavigation : Controls.DoubleBufferedPanel {
 
 		private Bitmap _background = null;
 		private Bitmap _backgroundOverlay = null;
 
-		public ControlPanelTasks() {
+		internal Label _otherLabel;
+
+		internal ControlPanelTaskPanel _tasks;
+		internal ControlPanelTaskPanel _otherTasks;
+
+		public ControlPanelNavigation() : base() {
 			this.Dock = DockStyle.Left;
 			this.BackColor = System.Drawing.Color.Transparent;
 			this.Width = 200;
-			this.Padding = new Padding(22, 10, 12, 20);
+			this.Padding = new Padding(22, 10, 12, 15);
 			
 			SetStyle(ControlStyles.ContainerControl, false);
-			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-			SetStyle(ControlStyles.UserPaint, true);
 			UpdateStyles();
 
 			Font = SystemFonts.MessageBoxFont;
+
+			_tasks = new ControlPanelTaskPanel() { Dock = DockStyle.Fill };
+
+			_otherTasks = new ControlPanelTaskPanel() { 
+				AutoSize = true,
+				AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink,
+				Dock = DockStyle.Bottom
+			};
+
+			_otherLabel = new Label() {
+				Text = "Other Tasks",
+				Visible = false,
+				Padding = new Padding(0, 0, 0, 5)
+			};
+
+			if (VisualStyleRenderer.IsSupported) {
+				VisualStyleRenderer renderer = VisualStyles.ControlPanel.GetRenderer(VisualStyles.ControlPanel.ControlPanelPart.TaskLink, (int)VisualStyles.ControlPanel.TaskLinkState.Disabled, true);
+
+				using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
+					_otherTasks.Font = renderer.GetFont(g, FontProperty.GlyphFont);
+					_otherTasks.ForeColor = renderer.GetColor(ColorProperty.TextColor);
+				}
+			}
+
+			_otherTasks.Controls.Add(_otherLabel);
+
+			_otherTasks.ControlAdded += delegate(object Sender, ControlEventArgs e) {
+				_otherLabel.Visible = true;
+			};
+
+			_otherTasks.ControlRemoved += delegate(object Sender, ControlEventArgs e) {
+				if (_otherTasks.Controls.Count == 0) {
+					_otherLabel.Visible = false;
+				}
+			};
+		
+			this.Controls.Add(_otherTasks);
+			this.Controls.Add(_tasks);
+		}
+
+		public String OtherTasksText {
+			get { return _otherLabel.Text; }
+			set { _otherLabel.Text = value; }
 		}
 
 		protected override void OnSizeChanged(EventArgs e) {

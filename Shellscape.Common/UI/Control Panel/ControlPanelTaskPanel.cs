@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Shellscape.UI.Controls {
+namespace Shellscape.UI.ControlPanel {
+	public class ControlPanelTaskPanel : FlowLayoutPanel {
 
-	public class DoubleBufferedPanel : Panel {
-
-		public DoubleBufferedPanel() {
-			// Set the value of the double-buffering style bits to true.
+		public ControlPanelTaskPanel() {
 			this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
 			this.UpdateStyles();
 		}
