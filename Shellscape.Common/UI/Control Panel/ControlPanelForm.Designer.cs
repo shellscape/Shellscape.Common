@@ -33,6 +33,8 @@
 			this._Tasks.Font = new System.Drawing.Font("Segoe UI", 9F);
 			this._Tasks.Location = new System.Drawing.Point(0, 0);
 			this._Tasks.Name = "_Tasks";
+			this._Tasks.OtherTasksText = "Other Tasks";
+			this._Tasks.Padding = new System.Windows.Forms.Padding(22, 10, 12, 15);
 			this._Tasks.Size = new System.Drawing.Size(200, 412);
 			this._Tasks.TabIndex = 0;
 			// 
@@ -43,7 +45,6 @@
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(724, 412);
 			this.Controls.Add(this._Tasks);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "ControlPanelForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Control Panel";

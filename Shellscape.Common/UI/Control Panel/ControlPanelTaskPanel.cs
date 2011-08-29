@@ -9,6 +9,7 @@ namespace Shellscape.UI.ControlPanel {
 
 		public ControlPanelTaskPanel() {
 			this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+			this.SetStyle(ControlStyles.ResizeRedraw, true);
 			this.UpdateStyles();
 		}
 

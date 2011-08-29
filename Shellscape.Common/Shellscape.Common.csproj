@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\AnimatedCursor.cs" />
     <Compile Include="ArgumentCollection.cs" />
     <Compile Include="AssemblyResourceNamespaceAttribute.cs" />
     <Compile Include="Browser.cs" />

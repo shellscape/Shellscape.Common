@@ -22,14 +22,15 @@ namespace Shellscape.UI.ControlPanel {
 		internal ControlPanelTaskPanel _otherTasks;
 
 		public ControlPanelNavigation() : base() {
-			this.Dock = DockStyle.Left;
-			this.BackColor = System.Drawing.Color.Transparent;
-			this.Width = 200;
-			this.Padding = new Padding(22, 10, 12, 15);
 			
 			SetStyle(ControlStyles.ContainerControl, false);
+			SetStyle(ControlStyles.ResizeRedraw, true);
 			UpdateStyles();
 
+			Dock = DockStyle.Left;
+			BackColor = System.Drawing.Color.Transparent;
+			Width = 200;
+			Padding = new Padding(22, 10, 12, 15);
 			Font = SystemFonts.MessageBoxFont;
 
 			_tasks = new ControlPanelTaskPanel() { Dock = DockStyle.Fill };
