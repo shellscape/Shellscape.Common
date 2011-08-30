@@ -78,10 +78,8 @@ namespace Shellscape {
 
 		public void StartTimer() {
 			_timer = new Timer(delegate(object state){
-
-				Debug.WriteLine("Trigger");
 				
-				SafeStart();
+				this.Start();
 				
 			}, this, 0, _updateInterval);
 		}
@@ -91,9 +89,24 @@ namespace Shellscape {
 			this.CancelAndWait();
 		}
 
-		public void SafeStart() {
+		public new void Start() {
 			if (this.IsDone) {
-				this.Start();
+				base.Start();
+			}
+		}
+
+		public void Download(String tempPath, System.ComponentModel.AsyncCompletedEventHandler callback) {
+			try {
+				using (WebClient webClient = new WebClient()) {
+					webClient.DownloadFileCompleted += callback;
+					webClient.DownloadFileAsync(new Uri(String.Format(_api, this.User, this.Repository)), Path.Combine(tempPath, "Updates", this.Latest.FileName));
+				}
+			}
+			catch (WebException e) {
+				if (Error != null) {
+					Error.Invoke(this, new UnhandledExceptionEventArgs(e, false));
+				}
+				this.Status = UpdateStatus.Problem;
 			}
 		}
 
@@ -205,9 +218,6 @@ namespace Shellscape {
 			else{
 				this.Status = UpdateStatus.UpToDate;
 			}
-
-			Debug.WriteLine(version);
-			Debug.WriteLine(current < remote ? "newer" : "current");
 		}
 	}
 }
