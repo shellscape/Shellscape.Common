@@ -52,21 +52,32 @@ namespace Shellscape {
 
 		//private WebRequest _webRequest;
 		private Timer _timer;
+		private static UpdateManager _current = null;
 
-		public UpdateManager(String user, String repository, String appName) {
+		private UpdateManager() {
+			System.Reflection.Assembly assembly =  System.Reflection.Assembly.GetEntryAssembly();
+			this.CurrentVersion = assembly != null ? assembly.GetName().Version.ToString() : "1.0.0.0";
+
+			_current = this;
+		}
+
+		public UpdateManager(String user, String repository, String appName) : this() {
 			this.User = user;
 			this.Repository = repository;
 			this.AppName = String.Concat(appName, "-"); // this is the file name format i use; [name]-[version].zip
-			this.CurrentVersion = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
-
-			//_webRequest = WebRequest.Create(String.Format(_api, this.User, this.Repository));
-			
-			UpdateManager.Current = this;
 		}
 
 		public event UnhandledExceptionEventHandler Error;
 
-		public static UpdateManager Current { get; private set; }
+		public static UpdateManager Current {
+			get {
+				if (_current == null) {
+					new UpdateManager();
+				}
+
+				return _current;
+			}
+		}
 
 		public UpdateStatus Status { get; private set; }
 		public String AppName { get; private set; }

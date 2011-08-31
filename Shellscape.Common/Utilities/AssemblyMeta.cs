@@ -13,20 +13,26 @@ namespace Shellscape.Utilities {
 
 		private static void Init() {
 			if (_assembly == null) {
-				_assembly = Assembly.GetExecutingAssembly();
+				_assembly = Assembly.GetEntryAssembly(); //GetExecutingAssembly
 			}
 
-			if (_attributes == null) {
-				_attributes = _assembly.GetCustomAttributes(false);
+			if (_assembly != null) {
+				if (_attributes == null) {
+					_attributes = _assembly.GetCustomAttributes(false);
+				}
 			}
 		}
 
 		private static String GetAttribute<T>(String property) where T : Attribute {
 			Init();
 
+			if (_attributes == null) {
+				return property;
+			}
+
 			T attribute = (T)_attributes.Where(o => o is T).FirstOrDefault();
-			
-			if (attribute != null){
+
+			if (attribute != null) {
 				PropertyInfo propinfo = typeof(T).GetProperty(property);
 
 				if (propinfo != null) {
@@ -41,8 +47,8 @@ namespace Shellscape.Utilities {
 			return String.Empty;
 		}
 
-		public static String Title { 
-			get { 
+		public static String Title {
+			get {
 				String result = GetAttribute<AssemblyTitleAttribute>("Title");
 
 				if (String.IsNullOrEmpty(result)) {
@@ -50,10 +56,10 @@ namespace Shellscape.Utilities {
 				}
 
 				return result;
-			} 
+			}
 		}
 
-		public static String AssemblyName { 
+		public static String AssemblyName {
 			get {
 				Init();
 
@@ -61,8 +67,8 @@ namespace Shellscape.Utilities {
 					return String.Empty;
 				}
 
-				return System.IO.Path.GetFileNameWithoutExtension(_assembly.CodeBase); 
-			} 
+				return System.IO.Path.GetFileNameWithoutExtension(_assembly.CodeBase);
+			}
 		}
 
 		public static String Guid { get { return GetAttribute<GuidAttribute>("Value"); } }
@@ -71,7 +77,7 @@ namespace Shellscape.Utilities {
 		public static String Version {
 			get {
 				Init();
-				return _assembly.GetName().Version.ToString();
+				return _assembly == null ? "1.0.0.0" : _assembly.GetName().Version.ToString();
 			}
 		}
 

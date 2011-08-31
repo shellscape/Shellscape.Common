@@ -6,6 +6,10 @@ using System.Text;
 
 namespace Shellscape {
 
+	public interface IRemotingService {
+		void Execute(String[] arguments);
+	}
+
 	public class RemoteServiceMethodAttribute : Attribute {
 
 		public RemoteServiceMethodAttribute(String argument) {
@@ -16,7 +20,7 @@ namespace Shellscape {
 
 	}
 
-	public class RemotingService<T> where T : ArgumentCollection, new() {
+	public class RemotingService<T> : MarshalByRefObject, IRemotingService where T : ArgumentCollection, new() {
 
 		private T _arguments;
 
@@ -31,6 +35,8 @@ namespace Shellscape {
 			}
 
 			String argument = arguments[0];
+
+			argument = argument.TrimStart(new char[] { '-', '/' });
 
 			if (!_arguments.Contains(argument)) {
 				return;

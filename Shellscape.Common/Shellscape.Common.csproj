@@ -63,6 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncOperation.cs" />
+    <Compile Include="UI\About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AnimatedCursor.cs" />
     <Compile Include="ArgumentCollection.cs" />
     <Compile Include="AssemblyResourceNamespaceAttribute.cs" />
@@ -104,48 +110,12 @@
     <Compile Include="UI\Controls\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Preferences\PreferencesButtonGroup.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesForm.cs">
+    <Compile Include="UI\Form.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesForm.Designer.cs">
-      <DependentUpon>PreferencesForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesDrawingHelper.cs" />
-    <Compile Include="UI\Preferences\PreferencesBaseControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesBaseControl.designer.cs">
-      <DependentUpon>PreferencesBaseControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesButton.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesButton.designer.cs">
-      <DependentUpon>PreferencesButton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesButtonBase.cs">
-      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UI\Control Panel\ControlPanelNavigation.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Preferences\PreferencesButtonItem.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesButtonItem.designer.cs">
-      <DependentUpon>PreferencesButtonItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesPanel.designer.cs">
-      <DependentUpon>PreferencesPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Preferences\PreferencesButtonItemCollection.cs" />
-    <Compile Include="UI\Preferences\PreferencesButtonItemEventArgs.cs" />
     <Compile Include="UI\Visual Styles\ControlPanel.cs" />
     <Compile Include="UpdateManager.cs" />
     <Compile Include="Utilities\AssemblyMeta.cs" />
@@ -155,21 +125,12 @@
     <Compile Include="Utilities\Serializer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UI\About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Control Panel\ControlPanelForm.resx">
       <DependentUpon>ControlPanelForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\Preferences\PreferencesForm.resx">
-      <DependentUpon>PreferencesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\Preferences\PreferencesButtonItem.resx">
-      <DependentUpon>PreferencesButtonItem.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Microsoft\Windows API\Windows API.csproj">
-      <Project>{A8C6E474-E434-4759-BA2B-DAA963C1EFBB}</Project>
-      <Name>Windows API</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -193,7 +154,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft\Windows API\Windows API.csproj">
+      <Project>{B20A1853-BDC5-47D5-9369-3999BBD7F516}</Project>
+      <Name>Windows API</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

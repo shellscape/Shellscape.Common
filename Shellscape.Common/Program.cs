@@ -11,19 +11,34 @@ using System.Windows.Forms;
 
 namespace Shellscape {
 
-	public class Program {
+	public static class Program {
 
-		public event EventHandler MainInstanceStarted;
-		public event EventHandler<RemoteCallEventArgs> RemoteCall;
+		public static event Action MainInstanceStarted;
+		public static event Action<object, RemoteCallEventArgs> RemoteCall;
 
-		private String _channelName;
+		//private static String _channelName;
 
-		public Program() {
+		static Program() {
 			SingleInstance = true;
-			MutexName = String.Concat(@"Local\", Utilities.AssemblyMeta.Title, "\\", Utilities.AssemblyMeta.Guid);
+			MutexName = String.Concat("Local\\", Utilities.AssemblyMeta.Title, "-", Utilities.AssemblyMeta.Guid);
+			ChannelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@", Utilities.AssemblyMeta.Title.Replace(" ", String.Empty));
+			ObjectUri = "service.rem";
 		}
 
-		public void Run<TForm>(String[] arguments) where TForm : Form, new() {
+		/// <summary>
+		/// Determines whether or not this application is a single-instance-only application.
+		/// </summary>
+		public static Boolean SingleInstance { get; set; }
+
+		public static String MutexName { get; set; }
+		public static String ChannelName { get; set; }
+		public static String ObjectUri { get; set; }
+
+		public static Type RemotingServiceType { get; set; }
+
+		public static Form Form { get; private set; }
+
+		public static void Run<TForm>(String[] arguments) where TForm : Form, new() {
 
 			bool createdNew;
 
@@ -42,12 +57,9 @@ namespace Shellscape {
 				Application.ThreadException += Application_ThreadException;
 
 				try {
+					OnMainInstanceStarted();
 
-					if (MainInstanceStarted != null) {
-						MainInstanceStarted(this, EventArgs.Empty);
-					}
-
-					form = new TForm();
+					Program.Form = form = new TForm();
 				}
 				catch (Exception e) {
 					Application_ThreadException(null, new System.Threading.ThreadExceptionEventArgs(e));
@@ -58,42 +70,49 @@ namespace Shellscape {
 
 		}
 
-		/// <summary>
-		/// Determines whether or not this application is a single-instance-only application.
-		/// </summary>
-		public Boolean SingleInstance { get; set; }
-
-		public String MutexName { get; set; }
-
-		public Type RemotingServiceType { get; set; }
-
-		public void InitRemoting() {
+		private static void InitRemoting() {
 
 			if (RemotingServiceType == null) {
 				return;
 			}
 
-			_channelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@", Utilities.AssemblyMeta.Title.Replace(" ", String.Empty));
-
-			ChannelServices.RegisterChannel(new IpcChannel(_channelName), false);
-			RemotingConfiguration.RegisterWellKnownServiceType(RemotingServiceType, "service.rem", WellKnownObjectMode.Singleton);
+			ChannelServices.RegisterChannel(new IpcChannel(ChannelName), false);
+			RemotingConfiguration.RegisterWellKnownServiceType(RemotingServiceType, ObjectUri, WellKnownObjectMode.Singleton);
 		}
 
-		private void CallRunningInstance(string[] arguments) {
+		private static void CallRunningInstance(string[] arguments) {
 
 			if (RemotingServiceType == null || arguments.Length == 0) {
 				return;
 			}
 
-			object service = RemotingServices.Connect(RemotingServiceType, "ipc://" + _channelName + "/service.rem");
+			object service = RemotingServices.Connect(RemotingServiceType, "ipc://" + ChannelName + "/" + ObjectUri);
 
-			if (RemoteCall != null) {
-				RemoteCall(service, new RemoteCallEventArgs() { Arguments = arguments });
+			OnRemoteCall(service, new RemoteCallEventArgs() { Arguments = arguments });
+		}
+
+		private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
+			Utilities.ErrorHelper.Report(e.Exception);
+		}
+
+		private static void OnMainInstanceStarted() {
+			if (MainInstanceStarted != null) {
+				MainInstanceStarted();
 			}
 		}
 
-		public void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
-			Utilities.ErrorHelper.Report(e.Exception);
+		private static void OnRemoteCall(object service, RemoteCallEventArgs e) {
+
+			try {
+				(service as IRemotingService).Execute(e.Arguments);
+			}
+			catch (Exception ex) {
+				Utilities.ErrorHelper.Report(ex);
+			}		
+			
+			if (RemoteCall != null) {
+				RemoteCall(service, e);
+			}
 		}
 
 	}

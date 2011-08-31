@@ -80,7 +80,7 @@ namespace Shellscape.UI.ControlPanel {
 		protected override void OnSizeChanged(EventArgs e) {
 			base.OnSizeChanged(e);
 
-			Form form = this.FindForm();
+			System.Windows.Forms.Form form = this.FindForm();
 
 			if (form != null) {
 				if (!Visible || form.WindowState == FormWindowState.Minimized) {

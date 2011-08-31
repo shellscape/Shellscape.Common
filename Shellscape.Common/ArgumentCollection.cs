@@ -5,14 +5,15 @@ using System.Reflection;
 using System.Text;
 
 namespace Shellscape {
-	public abstract class ArgumentCollection {
+	
+	public class ArgumentCollection {
 
 		private List<String> _arguments = new List<String>();
 
 		public ArgumentCollection() {
 
 			Type thisType = this.GetType();
-			FieldInfo[] fields = thisType.GetFields(BindingFlags.Public);
+			FieldInfo[] fields = thisType.GetFields(BindingFlags.Public | BindingFlags.Static);
 
 			foreach (FieldInfo info in fields) {
 				String value = info.GetValue(this) as String;
