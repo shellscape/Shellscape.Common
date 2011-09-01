@@ -22,6 +22,7 @@ namespace Shellscape.UI {
 
 			this.UpdateStyles();
 
+			this.Font = System.Drawing.SystemFonts.MessageBoxFont; // fixes the default Font, Segoe UI
 			this.Text = "Shellscape.UI.Form";
 
 		}

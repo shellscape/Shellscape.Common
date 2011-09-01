@@ -27,6 +27,8 @@ namespace Shellscape.UI.ControlPanel {
 			SetStyle(ControlStyles.ResizeRedraw, true);
 			UpdateStyles();
 
+			this.SuspendLayout();
+
 			Dock = DockStyle.Left;
 			BackColor = System.Drawing.Color.Transparent;
 			Width = 200;
@@ -56,6 +58,7 @@ namespace Shellscape.UI.ControlPanel {
 				}
 			}
 
+			_otherTasks.SuspendLayout();
 			_otherTasks.Controls.Add(_otherLabel);
 
 			_otherTasks.ControlAdded += delegate(object Sender, ControlEventArgs e) {
@@ -70,6 +73,9 @@ namespace Shellscape.UI.ControlPanel {
 		
 			this.Controls.Add(_otherTasks);
 			this.Controls.Add(_tasks);
+
+			this._otherTasks.ResumeLayout(true);
+			this.ResumeLayout(true);
 		}
 
 		public String OtherTasksText {

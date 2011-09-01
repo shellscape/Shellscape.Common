@@ -95,6 +95,9 @@
     <Compile Include="UI\Control Panel\ControlPanelTaskPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\ResponsiveLinkLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\DoubleBufferedControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
