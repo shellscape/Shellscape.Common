@@ -12,7 +12,13 @@ namespace Shellscape.UI.Controls {
 
 		public DoubleBufferedControl() {
 			// Set the value of the double-buffering style bits to true.
-			this.SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+			this.SetStyle(
+				ControlStyles.DoubleBuffer | 
+				ControlStyles.UserPaint | 
+				ControlStyles.AllPaintingInWmPaint |
+				ControlStyles.ResizeRedraw |
+				ControlStyles.SupportsTransparentBackColor, 
+			true);
 			this.UpdateStyles();
 		}
 

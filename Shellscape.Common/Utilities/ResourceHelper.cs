@@ -9,44 +9,44 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Shellscape.Utilities {
-	
+
 	public static class ResourceHelper {
 
-		#region .    Win32    
+		//#region .    Win32
 
-		private const uint RT_BITMAP = 0x00000002;
-		private const int LOAD_LIBRARY_AS_DATAFILE = 0x00000002;
+		//private const uint RT_BITMAP = 0x00000002;
+		//private const int LOAD_LIBRARY_AS_DATAFILE = 0x00000002;
 
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern bool FreeLibrary(IntPtr hModule);
+		//[DllImport("kernel32.dll", SetLastError = true)]
+		//static extern bool FreeLibrary(IntPtr hModule);
 
-		[DllImport("kernel32.dll", SetLastError = true)]
-		public extern static IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, int dwFlags);
+		//[DllImport("kernel32.dll", SetLastError = true)]
+		//public extern static IntPtr LoadLibraryEx(string lpFileName, IntPtr hFile, int dwFlags);
 
-		[DllImport("kernel32.dll", SetLastError = true)]
-		public extern static bool EnumResourceNames(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpszType, EnumResNameProc lpEnumFunc, IntPtr lParam);
+		//[DllImport("kernel32.dll", SetLastError = true)]
+		//public extern static bool EnumResourceNames(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpszType, EnumResNameProc lpEnumFunc, IntPtr lParam);
 
-		public delegate bool EnumResNameProc(IntPtr hModule, IntPtr lpszType, IntPtr lpszName, IntPtr lParam);
+		//public delegate bool EnumResNameProc(IntPtr hModule, IntPtr lpszType, IntPtr lpszName, IntPtr lParam);
 
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern IntPtr FindResource(IntPtr hModule, string lpName, IntPtr lpType);
+		//[DllImport("kernel32.dll", SetLastError = true)]
+		//static extern IntPtr FindResource(IntPtr hModule, string lpName, IntPtr lpType);
 
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern IntPtr LoadResource(IntPtr hModule, IntPtr hResInfo);
+		//[DllImport("kernel32.dll", SetLastError = true)]
+		//static extern IntPtr LoadResource(IntPtr hModule, IntPtr hResInfo);
 
-		[DllImport("Kernel32.dll")]
-		public static extern int FreeResource(IntPtr hglbResource);
+		//[DllImport("Kernel32.dll")]
+		//public static extern int FreeResource(IntPtr hglbResource);
 
-		[DllImport("kernel32.dll", SetLastError = true)]
-		static extern uint SizeofResource(IntPtr hModule, IntPtr hResInfo);
+		//[DllImport("kernel32.dll", SetLastError = true)]
+		//static extern uint SizeofResource(IntPtr hModule, IntPtr hResInfo);
 
-		[DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
-		static extern void CopyMemory(IntPtr dest, IntPtr src, int Length);
+		//[DllImport("kernel32.dll", EntryPoint = "RtlMoveMemory")]
+		//static extern void CopyMemory(IntPtr dest, IntPtr src, int Length);
 
-		[DllImport("Gdi32", EntryPoint = "GdiFlush")]
-		private extern static void GdiFlush();
+		//[DllImport("Gdi32", EntryPoint = "GdiFlush")]
+		//private extern static void GdiFlush();
 
-		#endregion
+		//#endregion
 
 		private static String _resourcePrefix = String.Empty;
 
@@ -63,7 +63,7 @@ namespace Shellscape.Utilities {
 			String find = ".Resources.";
 
 			foreach (String res in resourceNames) {
-				if(res.Contains(find)){
+				if (res.Contains(find)) {
 					root = res;
 					break;
 				}
@@ -82,22 +82,22 @@ namespace Shellscape.Utilities {
 		/// <param name="assembly"></param>
 		/// <param name="fileName">Filename of the embedded resource.</param>
 		/// <returns></returns>
-		public static T Get<T>(Assembly assembly, String fileName){
-		
+		public static T Get<T>(Assembly assembly, String fileName) {
+
 			Type type = typeof(T);
 
 			if (type == typeof(Stream)) {
 				return (T)Convert.ChangeType(assembly.GetManifestResourceStream(String.Concat(_resourcePrefix, fileName)), type);
 			}
 
-			using (Stream dataStream = assembly.GetManifestResourceStream(String.Concat(_resourcePrefix, fileName))){
-				
-				if(dataStream == null){
+			using (Stream dataStream = assembly.GetManifestResourceStream(String.Concat(_resourcePrefix, fileName))) {
+
+				if (dataStream == null) {
 					return default(T);
 				}
 
-				if(type == typeof(String)){
-					using (StreamReader sr = new StreamReader(dataStream)){
+				if (type == typeof(String)) {
+					using (StreamReader sr = new StreamReader(dataStream)) {
 						return (T)Convert.ChangeType(sr.ReadToEnd(), type);
 					}
 				}
@@ -114,7 +114,7 @@ namespace Shellscape.Utilities {
 			}
 
 			return default(T);
-		
+
 		}
 
 		/// <summary>
@@ -124,10 +124,10 @@ namespace Shellscape.Utilities {
 		/// <typeparam name="T">Datatype of the data you want returned.</typeparam>
 		/// <param name="fileName">Filename of the embedded resource.</param>
 		/// <returns></returns>
-		public static T Get<T>(String fileName){
+		public static T Get<T>(String fileName) {
 
 			Assembly assembly = Assembly.GetEntryAssembly(); // Assembly.GetCallingAssembly(); may want to revisit this method to allow for loading from other sources.
-			
+
 			return Get<T>(assembly, fileName);
 		}
 
@@ -152,7 +152,7 @@ namespace Shellscape.Utilities {
 
 				return new Icon(stream, size, size);
 			}
-						
+
 		}
 
 		public static Bitmap GetImage(string imageName) {
@@ -166,7 +166,7 @@ namespace Shellscape.Utilities {
 		}
 
 		//public static Locale GetLocale(String language) {
-			
+
 		//  String fileName = String.Concat("Locales.", language, ".xml");
 		//  String xml = String.Empty;
 
@@ -176,7 +176,7 @@ namespace Shellscape.Utilities {
 		//    if (stream == null) {
 		//      return null;
 		//    }				
-				
+
 		//    System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
 
 		//    try {
@@ -234,58 +234,77 @@ namespace Shellscape.Utilities {
 		//  }
 		//}
 
-		public static Bitmap GetResourcePNG(String moduleName, string resourceID) {
-			IntPtr hModule = LoadLibraryEx(moduleName, IntPtr.Zero, LOAD_LIBRARY_AS_DATAFILE);
+		public static Bitmap GetStandardResourceBitmap(String dllName, String resourceId) {
+			Bitmap result = null;
 
-			Bitmap result = GetResourcePNG(hModule, resourceID);
-
-			FreeLibrary(hModule);
+			using (ResourceLibrary library = new ResourceLibrary() { Filename = dllName }) {
+				IntPtr hDib = library.GetResource(resourceId, ResourceLibrary.ImageType.IMAGE_BITMAP, ResourceLibrary.ImageLoadOptions.LR_CREATEDIBSECTION);
+				if (!hDib.Equals(IntPtr.Zero)) {
+					result = ImageUtility.DibToBitmap(hDib);
+					ImageUtility.DeleteObject(hDib);
+				}
+			}
 
 			return result;
 		}
-	
-		public static Bitmap GetResourcePNG(IntPtr hModule, string resourceID) {
-			// the standard 40 bytes of BITMAPHEADERINFO).
-			const int FILE_HEADER_BYTES = 40;
 
-			// load the bitmap resource normally to get dimensions etc.
-			Bitmap bitmap = null;
-			IntPtr hResource = FindResource(hModule, "#" + resourceID, (IntPtr)RT_BITMAP);
-			int resourceSize = (int)SizeofResource(hModule, hResource);
+		//public static Bitmap GetResourcePNG(String moduleName, string resourceID) {
 
-			// initialize 32bit alpha bitmap (target)
-			using (Bitmap tmpNoAlpha = Bitmap.FromResource(hModule, "#" + resourceID)) {
-				bitmap = new Bitmap(tmpNoAlpha.Width, tmpNoAlpha.Height, PixelFormat.Format32bppArgb);
-			}
+		//  const int FILE_HEADER_BYTES = 40; // the standard 40 bytes of BITMAPHEADERINFO).
 
-			// load the resource (preserves alpha)
-			IntPtr hLoadedResource = LoadResource(hModule, hResource);
+		//  Bitmap bitmap = null;
+		//  IntPtr hModule = IntPtr.Zero;
+		//  IntPtr hResource = IntPtr.Zero;
 
-			// copy bitmap data into byte array directly
-			byte[] bitmapBytes = new byte[resourceSize];
-			IntPtr firstCopyElement = Marshal.UnsafeAddrOfPinnedArrayElement(bitmapBytes, 0);
-			// nb. we only copy the actual PNG data (no header)
+		//  try {
 
-			CopyMemory(firstCopyElement, hLoadedResource, resourceSize);
-			FreeResource(hLoadedResource);
+		//    // load the bitmap resource normally to get dimensions etc.
 
-			// copy the byte array contents back to a handle to the alpha bitmap (use lockbits)
-			Rectangle copyArea = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-			BitmapData alphaBits = bitmap.LockBits(copyArea, ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+		//    hModule = LoadLibraryEx(moduleName, IntPtr.Zero, LOAD_LIBRARY_AS_DATAFILE);
+		//    hResource = FindResource(hModule, "#" + resourceID, (IntPtr)RT_BITMAP);
+		//    int resourceSize = (int)SizeofResource(hModule, hResource);
 
-			// copymemory to bitmap data (Scan0)
-			firstCopyElement = Marshal.UnsafeAddrOfPinnedArrayElement(bitmapBytes, FILE_HEADER_BYTES);
-			CopyMemory(alphaBits.Scan0, firstCopyElement, resourceSize - FILE_HEADER_BYTES);
+		//    // initialize 32bit alpha bitmap (target)
+		//    using (Bitmap tmpNoAlpha = Bitmap.FromResource(hModule, "#" + resourceID)) {
+		//      bitmap = new Bitmap(tmpNoAlpha.Width, tmpNoAlpha.Height, PixelFormat.Format32bppArgb);
+		//    }
 
-			// complete operation
-			bitmap.UnlockBits(alphaBits);
-			GdiFlush();
+		//    // load the resource (preserves alpha)
+		//    IntPtr hLoadedResource = LoadResource(hModule, hResource);
 
-			// flip bits (not sure why this is needed at the moment..)
-			bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
+		//    // copy bitmap data into byte array directly
+		//    byte[] bitmapBytes = new byte[resourceSize];
+		//    IntPtr firstCopyElement = Marshal.UnsafeAddrOfPinnedArrayElement(bitmapBytes, 0);
+		//    // nb. we only copy the actual PNG data (no header)
 
-			return bitmap;
-		}
+		//    CopyMemory(firstCopyElement, hLoadedResource, resourceSize);
+		//    FreeResource(hLoadedResource);
+
+		//    // copy the byte array contents back to a handle to the alpha bitmap (use lockbits)
+		//    Rectangle copyArea = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+		//    BitmapData alphaBits = bitmap.LockBits(copyArea, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+
+		//    // copymemory to bitmap data (Scan0)
+		//    IntPtr scan0 = Marshal.UnsafeAddrOfPinnedArrayElement(bitmapBytes, FILE_HEADER_BYTES);
+		//    CopyMemory(alphaBits.Scan0, scan0, resourceSize - FILE_HEADER_BYTES);
+
+		//    // complete operation
+		//    bitmap.UnlockBits(alphaBits);
+		//    GdiFlush();
+
+		//    bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY); // image is inverted when using LoadResource
+		//  }
+		//  catch (Exception e) {
+
+		//  }
+		//  finally {
+		//    if (hModule != IntPtr.Zero) {
+		//      FreeLibrary(hModule);
+		//    }
+		//  }
+
+		//  return bitmap;
+		//}
 
 	}
 }

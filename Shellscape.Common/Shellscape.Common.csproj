@@ -33,9 +33,10 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -95,6 +96,12 @@
     <Compile Include="UI\Control Panel\ControlPanelTaskPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\Controls\DoubleBufferedFlowPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\Controls\FlickerFreeListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\Controls\ResponsiveLinkLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -113,13 +120,18 @@
     <Compile Include="UI\Controls\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Form.cs">
+    <Compile Include="UI\Controls\ThemeLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Utilities\Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\Control Panel\ControlPanelNavigation.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UI\Visual Styles\ControlPanel.cs" />
+    <Compile Include="Utilities\ImageUtility.cs" />
+    <Compile Include="Utilities\ResourceLibrary.cs" />
+    <Compile Include="Visual Styles\ControlPanel.cs" />
     <Compile Include="UpdateManager.cs" />
     <Compile Include="Utilities\AssemblyMeta.cs" />
     <Compile Include="Utilities\BrowserHelper.cs" />

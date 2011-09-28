@@ -16,6 +16,9 @@ namespace Shellscape.UI.Controls {
 
 		protected int _properHand;
 
+		private Color _colorHover;
+		private Color _colorNormal;
+
 		public ResponsiveLinkLabel() : base() {
 
 			this.LinkVisited = false;
@@ -24,11 +27,16 @@ namespace Shellscape.UI.Controls {
 
 			this._properHand = LoadCursor(0, 32649);
 
+			DataGridView d = new DataGridView();
+			Font f = d.DefaultCellStyle.Font;
+
 			if (VisualStyleRenderer.IsSupported) {
+
 				VisualStyles.ControlPanel.ControlPanelPart part = VisualStyles.ControlPanel.ControlPanelPart.TaskLink;
-				VisualStyleRenderer renderer = VisualStyles.ControlPanel.GetRenderer(part, (int)VisualStyles.ControlPanel.TaskLinkState.Normal, true);
+				VisualStyleRenderer renderer = VisualStyles.ControlPanel.GetRenderer(part, (int)VisualStyles.ControlPanel.TaskLinkState.Hot, true);
 
 				using (Graphics g = Graphics.FromHwnd(IntPtr.Zero)) {
+
 					this.Font = renderer.GetFont(g, FontProperty.GlyphFont);
 					this.LinkColor = this.VisitedLinkColor = NormalColor = renderer.GetColor(ColorProperty.TextColor);
 
@@ -41,9 +49,16 @@ namespace Shellscape.UI.Controls {
 			}
 		}
 
-		public Color HoverColor { get; set; }
-		public Color NormalColor { get; set; }
-		
+		public Color HoverColor {
+			get { return _colorHover; }
+			set { this.ActiveLinkColor = _colorHover = value; }
+		}
+
+		public Color NormalColor {
+			get { return _colorNormal; }
+			set { this.LinkColor = this.VisitedLinkColor = _colorNormal = value; }
+		}
+
 		// reset the color, as we're no longer hovering. this is a sanity check.
 		protected override void OnMouseLeave(EventArgs e) {
 

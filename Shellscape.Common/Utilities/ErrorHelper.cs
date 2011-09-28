@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
 using System.Text;
@@ -12,6 +13,16 @@ using Microsoft.WindowsAPI.Shell;
 
 namespace Shellscape.Utilities {
 	public static class ErrorHelper {
+
+		[DllImport("user32.dll")]
+		[return: MarshalAs(UnmanagedType.Bool)]
+		static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+		const uint SWP_NOSIZE = 0x0001;
+		const uint SWP_NOZORDER = 0x0004;
+		const uint SWP_NOMOVE = 0x0002;
+
+		private static IntPtr HWND_TOPMOST = new IntPtr(-1);
 
 		private static String _LogPath = null;
 
@@ -50,12 +61,15 @@ namespace Shellscape.Utilities {
 				InstructionText = "An unhandled exception occurred:",
 				Text = message,
 				FooterIcon = TaskDialogStandardIcon.Information,
-				FooterText = "Please <a href=\"#stub\">Click Here</a> to automagically report the issue.\nPress CTL + C to copy this error to the clipboard."
+				//Please <a href=\"#stub\">Click Here</a> to automagically report the issue.\
+				FooterText = "Press CTL + C to copy this error to the clipboard."
 			};
 
 			dialog.HyperlinkClick += delegate(object sender, TaskDialogHyperlinkClickedEventArgs evt) {
 				Send(guid);
 			};
+
+			SetWindowPos(dialog.OwnerWindowHandle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 			dialog.Show();
 		}
@@ -114,13 +128,13 @@ namespace Shellscape.Utilities {
 		}
 
 		public static void Send(Guid guid) {
-			String path = Path.Combine(_LogPath, guid.ToString());
-			FileInfo file = new FileInfo(path);
-			String data = null;
+			//String path = Path.Combine(_LogPath, guid.ToString());
+			//FileInfo file = new FileInfo(path);
+			//String data = null;
 
-			using (StreamReader sr = file.OpenText()) {
-				data = sr.ReadToEnd();
-			}
+			//using (StreamReader sr = file.OpenText()) {
+			//  data = sr.ReadToEnd();
+			//}
 
 			// TODO: send this to a hop server, which will then send to github.
 		}

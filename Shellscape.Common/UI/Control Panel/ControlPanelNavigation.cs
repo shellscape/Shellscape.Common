@@ -118,7 +118,7 @@ namespace Shellscape.UI.ControlPanel {
 		private void DrawBackground() {
 
 			if (_backgroundOverlay == null) {
-				_backgroundOverlay = Utilities.ResourceHelper.GetResourcePNG("shell32.dll", "632");
+				_backgroundOverlay = Utilities.ResourceHelper.GetStandardResourceBitmap("shell32.dll", "#632");
 			}
 		
 			using (Graphics g = Graphics.FromImage(_background)) {
