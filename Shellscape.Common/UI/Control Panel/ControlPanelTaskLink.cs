@@ -22,7 +22,7 @@ namespace Shellscape.UI.ControlPanel {
 
 		protected override void OnClick(EventArgs e) {
 
-			if (this.AssociatedPanel != null) {
+			if (this.AssociatedPanel != null && !this.AssociatedPanel.Visible) {
 				(this.FindForm() as ControlPanelForm).HidePanels();
 
 				this.AssociatedPanel.Show();
@@ -30,8 +30,6 @@ namespace Shellscape.UI.ControlPanel {
 			else {
 				base.OnClick(e);
 			}
-
-			Debug.WriteLine("click");
 
 			this.LinkVisited = false;
 		}
