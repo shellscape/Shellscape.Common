@@ -59,6 +59,12 @@ namespace Shellscape {
 				try {
 					OnMainInstanceStarted();
 
+					if (arguments.Length > 0) {
+						var service = Activator.CreateInstance(RemotingServiceType);
+						OnRemoteCall(service, new RemoteCallEventArgs() { Arguments = arguments });
+						//CallRunningInstance(arguments);
+					}
+
 					Program.Form = form = new TForm();
 				}
 				catch (Exception e) {
