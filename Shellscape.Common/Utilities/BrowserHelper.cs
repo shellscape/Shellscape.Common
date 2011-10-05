@@ -18,7 +18,10 @@ namespace Shellscape.Utilities {
 					String iconPath = iconKey.GetValue(null) as String;
 					String value = pathKey.GetValue(null) as String;
 
-					value = value.Replace("\"%1\"", String.Empty);
+					value = value
+										.Replace("\"%1\"", String.Empty)
+										.Trim(new char[]{'-', '/', ' ', '"'}) // this order is important
+										.Trim();
 
 					Browser browser = new Browser() {
 						Name = "Default Browser",
