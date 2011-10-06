@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="AsyncOperation.cs" />
     <Compile Include="Remoting\JumplistRemotingSingleton.cs" />
+    <Compile Include="Remoting\RemoteTaskMethod.cs" />
+    <Compile Include="Remoting\RemotingTaskMethods.cs" />
     <Compile Include="UI\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,7 +127,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\JumplistTask.cs" />
-    <Compile Include="UI\JumplistTaskEvents.cs" />
     <Compile Include="Utilities\Form.cs">
       <SubType>Form</SubType>
     </Compile>

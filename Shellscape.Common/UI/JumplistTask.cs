@@ -21,12 +21,12 @@ namespace Shellscape.UI {
 			this.IconResourcePath = System.IO.Path.Combine(iconPath, iconFileName);
 		}
 
-		public event JumplistClickHandler Click {
+		public event Remoting.RemoteTaskMethod Click {
 			add {
-				JumplistTaskEvents.ClickEvents.Add(this.Arguments, value);
+				Remoting.RemotingTaskMethods.Methods.Add(this.Arguments, value);
 			}
 			remove {
-				JumplistTaskEvents.ClickEvents.Remove(this.Arguments);
+				Remoting.RemotingTaskMethods.Methods.Remove(this.Arguments);
 			}
 		}
 

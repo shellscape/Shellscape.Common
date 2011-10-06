@@ -16,6 +16,7 @@ namespace Shellscape {
 	public static class Program {
 
 		public static event Action MainInstanceStarted;
+		public static event Action<String[]> RemoteCallMade;
 
 		//private static String _channelName;
 
@@ -61,7 +62,7 @@ namespace Shellscape {
 					OnMainInstanceStarted();
 
 					if (arguments.Length > 0) {
-						(new JumplistRemotingSingleton()).Run(arguments);
+						(new RemotingSingleton()).Run(arguments);
 					}
 
 					Program.Form = form = new TForm();
@@ -88,7 +89,7 @@ namespace Shellscape {
 		private static void InitRemoting() {
 
 			ChannelServices.RegisterChannel(new IpcChannel(JumplistChannelName), false);
-			RemotingConfiguration.RegisterWellKnownServiceType(typeof(JumplistRemotingSingleton), JumplistObjectName, WellKnownObjectMode.Singleton);
+			RemotingConfiguration.RegisterWellKnownServiceType(typeof(RemotingSingleton), JumplistObjectName, WellKnownObjectMode.Singleton);
 		}
 
 		private static void CallRunningInstance(string[] arguments) {
@@ -97,11 +98,15 @@ namespace Shellscape {
 				return;
 			}
 
-			object proxy = RemotingServices.Connect(typeof(JumplistRemotingSingleton), "ipc://" + JumplistChannelName + "/" + JumplistObjectName);
-			JumplistRemotingSingleton service = proxy as JumplistRemotingSingleton;
+			object proxy = RemotingServices.Connect(typeof(RemotingSingleton), "ipc://" + JumplistChannelName + "/" + JumplistObjectName);
+			RemotingSingleton service = proxy as RemotingSingleton;
 
 			try {
 				service.Run(arguments);
+
+				if (RemoteCallMade != null) {
+					RemoteCallMade(arguments);
+				}
 			}
 			catch (Exception ex) {
 				Utilities.ErrorHelper.Report(ex);

@@ -6,7 +6,7 @@ using System.Text;
 using Shellscape.UI;
 
 namespace Shellscape.Remoting {
-	internal class JumplistRemotingSingleton : MarshalByRefObject {
+	internal class RemotingSingleton : MarshalByRefObject {
 
 		public void Run(String[] arguments) {
 
@@ -24,11 +24,11 @@ namespace Shellscape.Remoting {
 
 			taskArgument = taskArgument.TrimStart(trimChars);
 
-			foreach (var kvp in JumplistTaskEvents.ClickEvents.Where(k => k.Key.TrimStart(trimChars) == taskArgument)) {
+			foreach (var kvp in RemotingTaskMethods.Methods.Where(k => k.Key.TrimStart(trimChars) == taskArgument)) {
 				String argument = kvp.Key.TrimStart(trimChars);
-				JumplistClickHandler handler = kvp.Value;
+				RemoteTaskMethod handler = kvp.Value;
 
-				if (Program.Form.InvokeRequired) {
+				if (Program.Form != null && Program.Form.InvokeRequired) {
 					Program.Form.Invoke(handler, new object[] { eventArguments });
 				}
 				else {
