@@ -75,6 +75,16 @@ namespace Shellscape {
 
 		}
 
+		public static Form FindForm(Type formType) {
+			foreach (Form form in Application.OpenForms) {
+				if (form.GetType() == formType) {
+					return form;
+				}
+			}
+
+			return null;
+		}
+
 		private static void InitRemoting() {
 
 			ChannelServices.RegisterChannel(new IpcChannel(JumplistChannelName), false);
