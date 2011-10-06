@@ -48,6 +48,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -64,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncOperation.cs" />
+    <Compile Include="Remoting\JumplistRemotingSingleton.cs" />
     <Compile Include="UI\About.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,8 +85,6 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoteCallEventArgs.cs" />
-    <Compile Include="RemotingService.cs" />
     <Compile Include="UI\Control Panel\ControlPanelForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +124,8 @@
     <Compile Include="UI\Controls\ThemeLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\JumplistTask.cs" />
+    <Compile Include="UI\JumplistTaskEvents.cs" />
     <Compile Include="Utilities\Form.cs">
       <SubType>Form</SubType>
     </Compile>

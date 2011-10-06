@@ -9,20 +9,21 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
+using Shellscape.Remoting;
+
 namespace Shellscape {
 
 	public static class Program {
 
 		public static event Action MainInstanceStarted;
-		public static event Action<object, RemoteCallEventArgs> RemoteCall;
 
 		//private static String _channelName;
 
 		static Program() {
 			SingleInstance = true;
 			MutexName = String.Concat("Local\\", Utilities.AssemblyMeta.Title, "-", Utilities.AssemblyMeta.Guid);
-			ChannelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@", Utilities.AssemblyMeta.Title.Replace(" ", String.Empty));
-			ObjectUri = "service.rem";
+			JumplistChannelName = String.Concat(WindowsIdentity.GetCurrent().Name, "@", Utilities.AssemblyMeta.Title.Replace(" ", String.Empty));
+			JumplistObjectName = "jumplist.rem";
 		}
 
 		/// <summary>
@@ -31,10 +32,10 @@ namespace Shellscape {
 		public static Boolean SingleInstance { get; set; }
 
 		public static String MutexName { get; set; }
-		public static String ChannelName { get; set; }
-		public static String ObjectUri { get; set; }
+		public static String JumplistChannelName { get; set; }
+		public static String JumplistObjectName { get; set; }
 
-		public static Type RemotingServiceType { get; set; }
+		//public static Type RemotingServiceType { get; set; }
 
 		public static Form Form { get; private set; }
 
@@ -60,9 +61,7 @@ namespace Shellscape {
 					OnMainInstanceStarted();
 
 					if (arguments.Length > 0) {
-						var service = Activator.CreateInstance(RemotingServiceType);
-						OnRemoteCall(service, new RemoteCallEventArgs() { Arguments = arguments });
-						//CallRunningInstance(arguments);
+						(new JumplistRemotingSingleton()).Run(arguments);
 					}
 
 					Program.Form = form = new TForm();
@@ -78,23 +77,25 @@ namespace Shellscape {
 
 		private static void InitRemoting() {
 
-			if (RemotingServiceType == null) {
-				return;
-			}
-
-			ChannelServices.RegisterChannel(new IpcChannel(ChannelName), false);
-			RemotingConfiguration.RegisterWellKnownServiceType(RemotingServiceType, ObjectUri, WellKnownObjectMode.Singleton);
+			ChannelServices.RegisterChannel(new IpcChannel(JumplistChannelName), false);
+			RemotingConfiguration.RegisterWellKnownServiceType(typeof(JumplistRemotingSingleton), JumplistObjectName, WellKnownObjectMode.Singleton);
 		}
 
 		private static void CallRunningInstance(string[] arguments) {
 
-			if (RemotingServiceType == null || arguments.Length == 0) {
+			if (arguments.Length == 0) {
 				return;
 			}
 
-			object service = RemotingServices.Connect(RemotingServiceType, "ipc://" + ChannelName + "/" + ObjectUri);
+			object proxy = RemotingServices.Connect(typeof(JumplistRemotingSingleton), "ipc://" + JumplistChannelName + "/" + JumplistObjectName);
+			JumplistRemotingSingleton service = proxy as JumplistRemotingSingleton;
 
-			OnRemoteCall(service, new RemoteCallEventArgs() { Arguments = arguments });
+			try {
+				service.Run(arguments);
+			}
+			catch (Exception ex) {
+				Utilities.ErrorHelper.Report(ex);
+			}		
 		}
 
 		private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
@@ -106,20 +107,5 @@ namespace Shellscape {
 				MainInstanceStarted();
 			}
 		}
-
-		private static void OnRemoteCall(object service, RemoteCallEventArgs e) {
-
-			try {
-				(service as IRemotingService).Execute(e.Arguments);
-			}
-			catch (Exception ex) {
-				Utilities.ErrorHelper.Report(ex);
-			}		
-			
-			if (RemoteCall != null) {
-				RemoteCall(service, e);
-			}
-		}
-
 	}
 }
