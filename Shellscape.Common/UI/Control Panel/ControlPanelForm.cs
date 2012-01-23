@@ -20,7 +20,7 @@ namespace Shellscape.UI.ControlPanel {
 		}
 
 		public ControlPanelForm() {
-			SetStyle(ControlStyles.ContainerControl, false);
+			//SetStyle(ControlStyles.ContainerControl, false);
 			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 			SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 			SetStyle(ControlStyles.UserPaint, true);
