@@ -69,6 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncOperation.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Remoting\JumplistRemotingSingleton.cs" />
     <Compile Include="Remoting\RemoteTaskMethod.cs" />
     <Compile Include="Remoting\RemotingTaskMethods.cs" />
@@ -147,6 +152,10 @@
     <Compile Include="Utilities\Serializer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
@@ -181,6 +190,9 @@
       <Project>{B20A1853-BDC5-47D5-9369-3999BBD7F516}</Project>
       <Name>Windows API</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\donate-paypal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
