@@ -139,6 +139,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="UI\JumplistTask.cs" />
+    <Compile Include="Utilities\ApplicationHelper.cs" />
     <Compile Include="Utilities\Form.cs">
       <SubType>Form</SubType>
     </Compile>

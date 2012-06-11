@@ -29,7 +29,7 @@ namespace Shellscape.UI {
 			this._TextVersion.Font = SystemFonts.MessageBoxFont;
 
 			this._ButtonDonate.Click += delegate(object sender, EventArgs e) {
-				this.Donate();
+				Shellscape.Utilities.ApplicationHelper.Donate(this.DonationDescription);
 			};
 
 			this.ResumeLayout(true);
@@ -80,14 +80,5 @@ namespace Shellscape.UI {
 			get { return "Shellscape%20Software%20Donation"; }
 		}
 
-		protected virtual void Donate() {
-
-			String business = "andrew@shellscape.org";
-
-			String url = String.Format("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business={0}&lc=US&item_name={1}&currency_code=USD&bn=", business, this.DonationDescription);
-
-			System.Diagnostics.Process.Start(url);
-
-		}
 	}
 }
