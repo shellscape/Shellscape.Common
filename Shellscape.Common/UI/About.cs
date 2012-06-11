@@ -76,7 +76,7 @@ namespace Shellscape.UI {
 			base.OnPaint(e);
 		}
 
-		protected override string DonationDescription {
+		protected virtual string DonationDescription {
 			get { return "Shellscape%20Software%20Donation"; }
 		}
 
