@@ -29,7 +29,7 @@ namespace Shellscape {
 		public class LatestVersion {
 
 			public LatestVersion(String fileUrl, String fileName, String version) {
-				this.FileName = FileName;
+				this.FileName = fileName;
 				this.FileUrl = fileUrl;
 				this.Version = version;
 			}
