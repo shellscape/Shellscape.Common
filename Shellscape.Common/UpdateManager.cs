@@ -213,7 +213,7 @@ namespace Shellscape {
 					data = client.DownloadString(string.Format(this._api, this.User, this.Repository));
 				}
 			}
-			catch(WebException exception) {
+			catch(Exception exception) {
 				if(this.Error != null) {
 					this.Error(this, new UnhandledExceptionEventArgs(exception, false));
 				}
