@@ -115,7 +115,7 @@ namespace Shellscape {
 				}
 				else {
 					GitHubDownload download = (from d in list
-																		 where !d.name.Contains("debug")
+																		 where !d.name.Contains("debug") && d.name.ToLower().EndsWith(".zip")
 																		 select d).First<GitHubDownload>();
 					FileInfo info = new FileInfo(download.name);
 					string remoteVersion = info.Name.Replace(this.AppName, string.Empty).Replace(info.Extension, string.Empty);
