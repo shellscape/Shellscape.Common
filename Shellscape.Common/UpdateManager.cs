@@ -12,6 +12,8 @@ using System.Web.Script.Serialization;
 
 using Ionic.Zip;
 
+using Microsoft.Win32;
+
 namespace Shellscape {
 
 	/// <summary>
@@ -51,7 +53,7 @@ namespace Shellscape {
 			public int id { get; set; }
 		}
 
-		private  String _api = "https://api.github.com/repos/{0}/{1}/downloads";
+		private String _api = "https://api.github.com/repos/{0}/{1}/downloads";
 		private Timer _timer;
 		private static UpdateManager _current = null;
 
@@ -63,6 +65,8 @@ namespace Shellscape {
 			this.CurrentVersion = (entryAssembly != null) ? entryAssembly.GetName().Version.ToString() : "1.0.0.0";
 			_current = this;
 			this.UpdateInterval = 3600000; // 1 hour
+
+			SystemEvents.PowerModeChanged += OnPowerChange;
 		}
 
 		public UpdateManager(string user, string repository, string appName) : this() {
@@ -93,7 +97,7 @@ namespace Shellscape {
 		public UpdateStatus Status { get; private set; }
 		public int UpdateInterval { get; set; }
 		public string User { get; private set; }
-		
+
 		private void Check(string data) {
 			if(string.IsNullOrEmpty(data)) {
 				this.Status = UpdateStatus.Problem;
@@ -121,9 +125,9 @@ namespace Shellscape {
 					string remoteVersion = info.Name.Replace(this.AppName, string.Empty).Replace(info.Extension, string.Empty);
 					Version current = new Version(this.CurrentVersion);
 					Version remote = new Version(remoteVersion);
-					
+
 					this.Latest = new LatestVersion(download.html_url, download.name, remoteVersion);
-					
+
 					if(current < remote) {
 						this.Status = UpdateStatus.NewVersion;
 						this.NewVersion = remote.ToString();
@@ -181,13 +185,13 @@ namespace Shellscape {
 		}
 
 		private void ReplaceDirectory(DirectoryInfo source, DirectoryInfo dest) {
-			
+
 			if(!dest.Exists) {
 				dest.Create();
 			}
-			
+
 			FileInfo[] files = source.GetFiles();
-			
+
 			foreach(FileInfo file in files) {
 				string path = Path.Combine(dest.FullName, file.Name);
 				if(File.Exists(path)) {
@@ -197,9 +201,9 @@ namespace Shellscape {
 					file.CopyTo(path);
 				}
 			}
-			
+
 			DirectoryInfo[] directories = source.GetDirectories();
-			
+
 			foreach(DirectoryInfo dir in directories) {
 				this.ReplaceDirectory(dir, new DirectoryInfo(Path.Combine(dest.FullName, dir.Name)));
 			}
@@ -232,6 +236,17 @@ namespace Shellscape {
 		public void Stop() {
 			this._timer.Dispose();
 			base.Cancel();
+		}
+
+		private void OnPowerChange(Object sender, PowerModeChangedEventArgs e) {
+			switch(e.Mode) {
+				case PowerModes.Resume:
+					this.Start();
+					break;
+				case PowerModes.Suspend:
+					this.Stop();
+					break;
+			}
 		}
 
 		private void Unzip(string zipFile) {
