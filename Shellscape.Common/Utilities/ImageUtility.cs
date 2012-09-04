@@ -47,29 +47,39 @@ namespace Shellscape.Utilities {
 			public int dsOffset;
 		}
 		[DllImport("gdi32", CharSet = CharSet.Auto, EntryPoint = "GetObject")]
-		private static extern int GetObjectBitmap(IntPtr hObject, int nCount, ref       BITMAP lpObject);
+		private static extern int GetObjectBitmap(IntPtr hObject, int nCount, ref BITMAP lpObject);
+		
 		[DllImport("gdi32", CharSet = CharSet.Auto, EntryPoint = "GetObject")]
-		private static extern int GetObjectDIBSection(IntPtr hObject, int nCount,
-		 ref DIBSECTION lpObject);
+		private static extern int GetObjectDIBSection(IntPtr hObject, int nCount, ref DIBSECTION lpObject);
+		
 		[DllImport("gdi32")]
 		private static extern int BitBlt(IntPtr hDestDC, int x, int y, int nWidth, int nHeight, IntPtr hSrcDC, int xSrc, int ySrc, int dwRop);
 		private const int SRCCOPY = 0xCC0020;
+		
 		[DllImport("gdi32")]
 		private static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+		
 		[DllImport("gdi32")]
 		public static extern int DeleteObject(IntPtr hObject);
+		
 		[DllImport("gdi32")]
 		private static extern IntPtr CreateCompatibleDC(IntPtr hDC);
+		
 		[DllImport("gdi32")]
 		private static extern int DeleteDC(IntPtr hdc);
+		
 		[DllImport("user32")]
 		private static extern IntPtr GetDesktopWindow();
+		
 		[DllImport("user32")]
 		private static extern IntPtr GetDC(IntPtr hWnd);
+		
 		[DllImport("user32")]
 		private static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+		
 		[DllImport("kernel32", EntryPoint = "RtlMoveMemory")]
 		private static extern int CopyMemory(IntPtr lpvDest, IntPtr lpvSrc, int cbCopy);
+		
 		#endregion
 
 
@@ -93,10 +103,8 @@ namespace Shellscape.Utilities {
 			// set the bitmap's data to the data from
 			// the DIB:
 			if (tBM.bmBitsPixel == 32) {
-				// Bizarre but true: you *must* clone the newly created
-				// bitmap to get one with the correct pixel format, even
-				// if you attempted to create the original one with the 
-				// correct format...
+				// Bizarre but true: you *must* clone the newly created bitmap to get one with the correct pixel format, even
+				// if you attempted to create the original one with the correct format...
 				bm = bm.Clone(new Rectangle(0, 0, tBM.bmWidth, tBM.bmHeight), PixelFormat.Format32bppArgb);
 
 				// Lock the bitmap bits

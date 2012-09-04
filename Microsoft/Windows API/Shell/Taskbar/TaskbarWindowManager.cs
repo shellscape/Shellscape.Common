@@ -582,6 +582,11 @@ namespace Microsoft.WindowsAPI.Taskbar
         /// <returns>Returns true if this method handles the window message</returns>           
         internal static bool DispatchMessage(ref System.Windows.Forms.Message m, TaskbarWindow taskbarWindow)
         {
+
+					if(taskbarWindow == null) { // ocassionally during debugging this will be null.
+						return false;
+					}
+
             if (taskbarWindow.EnableThumbnailToolbars)
             {
                 DispatchTaskbarButtonMessages(ref m, taskbarWindow);

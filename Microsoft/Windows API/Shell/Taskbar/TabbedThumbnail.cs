@@ -355,8 +355,6 @@ namespace Microsoft.WindowsAPI.Taskbar
 
         #endregion
 
-
-
         #region Events
 
         /// <summary>
@@ -544,7 +542,7 @@ namespace Microsoft.WindowsAPI.Taskbar
         {
             if (disposing)
             {
-                _taskbarWindow = null;
+                //_taskbarWindow = null; // < should never set this to null as it affects use externally
 
                 if (Icon != null) { Icon.Dispose(); }
                 Icon = null;
