@@ -55,7 +55,7 @@
 			this._ButtonDonate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this._ButtonDonate.AutoSize = true;
 			this._ButtonDonate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this._ButtonDonate.Image = global::Shellscape.Properties.Resources.donate_paypal;
+			this._ButtonDonate.Image = global::Shellscape.Resources.Images.donate_paypal;
 			this._ButtonDonate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this._ButtonDonate.Location = new System.Drawing.Point(12, 266);
 			this._ButtonDonate.MinimumSize = new System.Drawing.Size(0, 40);
