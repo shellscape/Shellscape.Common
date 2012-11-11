@@ -4,5 +4,5 @@ using System.Linq;
 using System.Text;
 
 namespace Shellscape.Configuration {
-	public delegate void ConfigSavedEventHandler(Config config);
+	public delegate void ConfigSavedEventHandler(object config);
 }

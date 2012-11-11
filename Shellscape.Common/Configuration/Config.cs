@@ -8,11 +8,12 @@ using System.Text;
 namespace Shellscape.Configuration {
 
 	[DataContract(Name = "config")]
-	public abstract class Config {
+	public abstract class Config<T> where T : Config<T>, new() {
 
 		private static String _appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 		private static String _path;
 		private static String _fileName = "app.config";
+		private static T _current = null;
 
 		public event ConfigSavedEventHandler Saved;
 
@@ -31,13 +32,15 @@ namespace Shellscape.Configuration {
 		protected abstract String ApplicationName { get; }
 		protected abstract void SetDefaults();
 
-		public static void Init<T>() where T : Config, new() {
+		public static virtual T Current { get { return _current as T; } }
+
+		public static void Init() {
 
 			if (!Directory.Exists(_path)) {
 				Directory.CreateDirectory(_path);
 			}
 
-			Config config = new T();
+			Config<T> config = new T();
 			String xml = null;
 			FileInfo file = new FileInfo(Path.Combine(_path, _fileName));
 
@@ -47,18 +50,21 @@ namespace Shellscape.Configuration {
 				}
 
 				if (!String.IsNullOrEmpty(xml)) {
-					config = Utilities.Serializer.DeserializeContract<Config>(xml);
+					config = Utilities.Serializer.DeserializeContract<Config<T>>(xml);
 				}
 			}
 			else {
 				config.Save();
 			}
 
+			_current = config as T;
+
+			_current.OnInit();
 		}
 
 		public void Save() {
 
-			String serialized = Utilities.Serializer.SerializeContract<Config>(this);
+			String serialized = Utilities.Serializer.SerializeContract<Config<T>>(this);
 
 			using (FileStream fs = new FileStream(Path.Combine(_path, _fileName), FileMode.Create, FileAccess.ReadWrite)) {
 				using (StreamWriter sw = new StreamWriter(fs)) {
@@ -73,6 +79,10 @@ namespace Shellscape.Configuration {
 			if (this.Saved != null) {
 				this.Saved(this);
 			}
+		}
+
+		protected virtual void OnInit() {
+
 		}
 
 	}
