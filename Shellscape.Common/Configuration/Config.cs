@@ -32,7 +32,7 @@ namespace Shellscape.Configuration {
 		protected abstract String ApplicationName { get; }
 		protected abstract void SetDefaults();
 
-		public static virtual T Current { get { return _current as T; } }
+		public static T Current { get { return _current as T; } }
 
 		public static void Init() {
 
