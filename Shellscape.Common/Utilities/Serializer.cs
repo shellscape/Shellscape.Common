@@ -51,13 +51,13 @@ namespace Shellscape.Utilities {
 			StringBuilder builder = new StringBuilder();
 
 			var ser = new DataContractSerializer(typeof(T));
+			var settings = new XmlWriterSettings { Indent = true };
 
-			using (XmlWriter xw = XmlWriter.Create(builder)) {
+			using (XmlWriter xw = XmlWriter.Create(builder, settings)) {
 				ser.WriteObject(xw, instance);
 			}
 
 			return builder.ToString();
-
 		}
 
 		/// <summary>

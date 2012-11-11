@@ -7,6 +7,10 @@ using System.Text;
 
 namespace Shellscape.Configuration {
 
+	/// <summary>
+	/// Derrived classes must also add the [DataContract(Name = "config")] attribute to the class definition.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	[DataContract(Name = "config")]
 	public abstract class Config<T> where T : Config<T>, new() {
 
@@ -18,30 +22,33 @@ namespace Shellscape.Configuration {
 		public event ConfigSavedEventHandler Saved;
 
 		public Config() {
-
-			_path = Path.Combine(_appData, this.ApplicationName);
-
-			SetDefaults();
+			SetDefaultsInternal();
 		}
 
 		[OnDeserializing]
 		private void OnDeserializing(StreamingContext context) {
-			SetDefaults();
+			SetDefaultsInternal();
 		}
 
 		protected abstract String ApplicationName { get; }
 		protected abstract void SetDefaults();
 
+		private void SetDefaultsInternal() {
+			_path = Path.Combine(_appData, this.ApplicationName);
+			SetDefaults();
+		}
+
 		public static T Current { get { return _current as T; } }
 
 		public static void Init() {
 
+			Config<T> config = new T();
+			String xml = null;
+			
 			if (!Directory.Exists(_path)) {
 				Directory.CreateDirectory(_path);
 			}
 
-			Config<T> config = new T();
-			String xml = null;
 			FileInfo file = new FileInfo(Path.Combine(_path, _fileName));
 
 			if (file.Exists) {
@@ -64,7 +71,7 @@ namespace Shellscape.Configuration {
 
 		public void Save() {
 
-			String serialized = Utilities.Serializer.SerializeContract<Config<T>>(this);
+			String serialized = Utilities.Serializer.SerializeContract<T>(this as T);
 
 			using (FileStream fs = new FileStream(Path.Combine(_path, _fileName), FileMode.Create, FileAccess.ReadWrite)) {
 				using (StreamWriter sw = new StreamWriter(fs)) {
