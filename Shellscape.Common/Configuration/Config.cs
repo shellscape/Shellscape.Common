@@ -14,14 +14,15 @@ namespace Shellscape.Configuration {
 	[DataContract(Name = "config")]
 	public abstract class Config<T> where T : Config<T>, new() {
 
-		private static String _appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-		private static String _path;
-		private static String _fileName = "app.config";
+		private String _appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+		private String _path;
 		private static T _current = null;
 
 		public event ConfigSavedEventHandler Saved;
 
 		public Config() {
+			this.FileName = "app.config";
+			_path = Path.Combine(_appData, this.ApplicationName);
 			SetDefaultsInternal();
 		}
 
@@ -30,11 +31,23 @@ namespace Shellscape.Configuration {
 			SetDefaultsInternal();
 		}
 
+		public virtual String AppDataPath {
+			get { return _appData; }
+			protected set { _appData = value; }
+		}
+
+		public virtual String StorePath {
+			get { return _path; }
+			set { _path = value; }
+		}
+
+		public  virtual String FileName { get; protected set; }
+
 		protected abstract String ApplicationName { get; }
 		protected abstract void SetDefaults();
 
 		private void SetDefaultsInternal() {
-			_path = Path.Combine(_appData, this.ApplicationName);
+			
 			SetDefaults();
 		}
 
@@ -45,11 +58,11 @@ namespace Shellscape.Configuration {
 			Config<T> config = new T();
 			String xml = null;
 			
-			if (!Directory.Exists(_path)) {
-				Directory.CreateDirectory(_path);
+			if (!Directory.Exists(config.StorePath)) {
+				Directory.CreateDirectory(config.StorePath);
 			}
 
-			FileInfo file = new FileInfo(Path.Combine(_path, _fileName));
+			FileInfo file = new FileInfo(Path.Combine(config.StorePath, config.FileName));
 
 			if (file.Exists) {
 				using (StreamReader sr = file.OpenText()) {
@@ -57,7 +70,7 @@ namespace Shellscape.Configuration {
 				}
 
 				if (!String.IsNullOrEmpty(xml)) {
-					config = Utilities.Serializer.DeserializeContract<Config<T>>(xml);
+					config = Utilities.Serializer.DeserializeContract<T>(xml);
 				}
 			}
 			else {
@@ -73,7 +86,7 @@ namespace Shellscape.Configuration {
 
 			String serialized = Utilities.Serializer.SerializeContract<T>(this as T);
 
-			using (FileStream fs = new FileStream(Path.Combine(_path, _fileName), FileMode.Create, FileAccess.ReadWrite)) {
+			using (FileStream fs = new FileStream(Path.Combine(_path, this.FileName), FileMode.Create, FileAccess.ReadWrite)) {
 				using (StreamWriter sw = new StreamWriter(fs)) {
 					sw.Write(serialized);
 				}
