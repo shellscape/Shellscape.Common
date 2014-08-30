@@ -54,6 +54,7 @@ namespace Shellscape {
 		}
 
 		private String _api = "https://api.github.com/repos/{0}/{1}/downloads";
+		private const String _userAgent = "Shellscape-Updater";
 		private Timer _timer;
 		private static UpdateManager _current = null;
 
@@ -69,16 +70,18 @@ namespace Shellscape {
 			SystemEvents.PowerModeChanged += OnPowerChange;
 		}
 
-		public UpdateManager(string user, string repository, string appName) : this() {
+		public UpdateManager(string user, string repository, string appName, string userAgent = _userAgent) : this() {
 			this.User = user;
 			this.Repository = repository;
 			this.AppName = appName + "-";
+			this.UserAgent = userAgent;
 		}
 
 		public event UnhandledExceptionEventHandler Error;
 		public event UpdateManagerEventHandler UpdateAvailable;
 
 		public string AppName { get; private set; }
+		public string UserAgent { get; set; }
 
 		public static UpdateManager Current {
 			get {
@@ -214,6 +217,7 @@ namespace Shellscape {
 			string data = string.Empty;
 			try {
 				using(WebClient client = new WebClient()) {
+					client.Headers.Add("User-Agent", this.UserAgent);
 					data = client.DownloadString(string.Format(this._api, this.User, this.Repository));
 				}
 			}
