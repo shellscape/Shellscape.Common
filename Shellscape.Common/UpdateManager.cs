@@ -42,31 +42,31 @@ namespace Shellscape {
 		}
 
 		internal class GitHubRelease {
-            public String url { get; set; }
-            public String html_url { get; set; }
-            public int id { get; set; }
-            public String tag_name { get; set; }
+			public String url { get; set; }
+			public String html_url { get; set; }
+			public int id { get; set; }
+			public String tag_name { get; set; }
 			public String name { get; set; }
-            public bool draft { get; set; }
-            public bool prerelease { get; set; }
-            public DateTime created_at { get; set; }
-            public DateTime published_at { get; set; }
-            public List<GitHubReleaseAsset> assets { get; set; }
-            public String body { get; set; }
+			public bool draft { get; set; }
+			public bool prerelease { get; set; }
+			public DateTime created_at { get; set; }
+			public DateTime published_at { get; set; }
+			public List<GitHubReleaseAsset> assets { get; set; }
+			public String body { get; set; }
 		}
 
-        internal class GitHubReleaseAsset {
-            public String url { get; set; }
-            public int id { get; set; }
-            public String name { get; set; }
-            public String content_type { get; set; }
-            public String state { get; set; }
-            public int size { get; set; }
-            public int download_count { get; set; }
-            public DateTime created_at { get; set; }
-            public DateTime updated_at { get; set; }
-            public String browser_download_url { get; set; }
-        }
+		internal class GitHubReleaseAsset {
+			public String url { get; set; }
+			public int id { get; set; }
+			public String name { get; set; }
+			public String content_type { get; set; }
+			public String state { get; set; }
+			public int size { get; set; }
+			public int download_count { get; set; }
+			public DateTime created_at { get; set; }
+			public DateTime updated_at { get; set; }
+			public String browser_download_url { get; set; }
+		}
 
 		private String _api = "https://api.github.com/repos/{0}/{1}/releases";
 		private const String _userAgent = "Shellscape-Updater";
@@ -135,22 +135,22 @@ namespace Shellscape {
 					this.Status = UpdateStatus.Problem;
 				}
 				else {
-                    // First, check if there's some stable release
+					// First, check if there's some stable release
 					GitHubRelease release = list.FirstOrDefault(p => !p.draft && !p.prerelease);
-                    if (release == null) {
-                        this.Status = UpdateStatus.Problem;
-                        return;
-                    }
+					if (release == null) {
+						this.Status = UpdateStatus.Problem;
+						return;
+					}
 
-                    // Second, see if it contains an asset suitable for UpdateManager needs
-                    GitHubReleaseAsset asset = release.assets.FirstOrDefault(p => !p.name.Contains("debug") && p.name.ToLower().EndsWith(".zip"));
-                    if (asset == null) {
-                        this.Status = UpdateStatus.Problem;
-                        return;
-                    }
+					// Second, see if it contains an asset suitable for UpdateManager needs
+					GitHubReleaseAsset asset = release.assets.FirstOrDefault(p => !p.name.Contains("debug") && p.name.ToLower().EndsWith(".zip"));
+					if (asset == null) {
+						this.Status = UpdateStatus.Problem;
+						return;
+					}
 
-                    // The release tag is expected to be in format "X.X.X.X" or "vX.X.X.X"
-                    string remoteVersion = release.tag_name.TrimStart('v');
+					// The release tag is expected to be in format "X.X.X.X" or "vX.X.X.X"
+					string remoteVersion = release.tag_name.TrimStart('v');
 					Version current = new Version(this.CurrentVersion);
 					Version remote = new Version(remoteVersion);
 
