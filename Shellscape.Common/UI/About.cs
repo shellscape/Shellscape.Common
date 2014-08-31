@@ -62,7 +62,7 @@ namespace Shellscape.UI {
 					appTitle = String.IsNullOrEmpty(appTitle) ? "Shellscape Application" : appTitle;
 
 					using(Font titleFont = new Font(this.Font.FontFamily, 30, GraphicsUnit.Pixel)){
-						g.DrawString(appTitle, titleFont, SystemBrushes.ControlText, 4, 24);
+						g.DrawString(appTitle, titleFont, SystemBrushes.ControlText, 8, 24);
 						titleSize = g.MeasureString(appTitle, titleFont);
 					}
 
